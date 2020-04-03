@@ -5,67 +5,17 @@
  */
 package flashcards;
 
-import java.io.InputStream;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.FileSystems;
-import javax.swing.JOptionPane;
-
 /**
  *
  * @author Tracy Ayres
  */
 public class FileSystem extends javax.swing.JFrame {
 
-    FileSystem fs;
-    Path pathToFile;
-    InputStream flashIn;
-    BufferedReader flashcardReader;
-    ArrayList<FileSystemClass> flashcardList = new ArrayList<FileSystemClass>();
-
-    public void showScreen() {
-        this.TermText.setText("Term");
-        this.DefText.setText("Definition");
-    }
-
-    public void addFlashcards() {
-        String fileName = "c:\\flashcards\\flashcards.txt";
-        String outputLine;
-        File file = new File(fileName);
-
-        try {
-            FileWriter fileOut = new FileWriter(file);
-
-            for (int x = 0; x < flashcardList.size() - 1; x++) {
-                //%d integer
-                //%f float or double
-                //%s string
-                //%n new line
-
-                outputLine = String.format("%s,%s", flashcardList.get(x).getTerm(), flashcardList.get(x).getDef());
-                fileOut.write(outputLine);
-            }
-
-            fileOut.close();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Cannot write flashcard file\n" + ex.getMessage(), "File IO Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
     /**
      * Creates new form FileSystem
      */
     public FileSystem() {
         initComponents();
-        this.setTitle("Company");
-        fs = FileSystems.getDefault();
-        pathToFile = fs.getPath("c:\\flashcard\\flashcard.txt");
-        FileSystemClass aPerson;
-        String line;
     }
 
     /**
@@ -77,52 +27,18 @@ public class FileSystem extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        CreateLabel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        TermText = new javax.swing.JTextField();
-        DefText = new javax.swing.JTextField();
-        CreateButton = new javax.swing.JButton();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        CreateLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        CreateLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        CreateLabel.setText("Create Flashcards");
-        getContentPane().add(CreateLabel, java.awt.BorderLayout.PAGE_START);
-
-        TermText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        TermText.setText("Term");
-
-        DefText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        DefText.setText("Definition");
-
-        CreateButton.setText("Create");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CreateButton))
-                .addContainerGap(155, Short.MAX_VALUE))
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(74, 74, 74)
-                .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(CreateButton)
-                .addContainerGap(26, Short.MAX_VALUE))
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
-
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -163,10 +79,5 @@ public class FileSystem extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CreateButton;
-    private javax.swing.JLabel CreateLabel;
-    private javax.swing.JTextField DefText;
-    private javax.swing.JTextField TermText;
-    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

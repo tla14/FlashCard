@@ -27,21 +27,51 @@ public class FlashCards extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cardText = new javax.swing.JTextField();
+        Terms = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        cardText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cardText.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        cardText.setText("jTextField1");
+        cardText.setToolTipText("");
+        cardText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cardTextActionPerformed(evt);
+            }
+        });
+        getContentPane().add(cardText, java.awt.BorderLayout.CENTER);
+
+        Terms.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        Terms.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Terms.setText("jLabel1");
+        getContentPane().add(Terms, java.awt.BorderLayout.PAGE_START);
+
+        jButton1.setText("Flip");
+        getContentPane().add(jButton1, java.awt.BorderLayout.PAGE_END);
+
+        jButton2.setText(">");
+        jButton2.setMaximumSize(new java.awt.Dimension(50, 23));
+        jButton2.setMinimumSize(new java.awt.Dimension(50, 23));
+        jButton2.setPreferredSize(new java.awt.Dimension(50, 23));
+        getContentPane().add(jButton2, java.awt.BorderLayout.LINE_END);
+
+        jButton3.setText("<");
+        jButton3.setMaximumSize(new java.awt.Dimension(50, 23));
+        jButton3.setMinimumSize(new java.awt.Dimension(50, 23));
+        jButton3.setPreferredSize(new java.awt.Dimension(50, 23));
+        getContentPane().add(jButton3, java.awt.BorderLayout.LINE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cardTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cardTextActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +109,10 @@ public class FlashCards extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Terms;
+    private javax.swing.JTextField cardText;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables
 }
