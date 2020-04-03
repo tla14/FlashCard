@@ -30,12 +30,15 @@ public class FlashCards extends javax.swing.JFrame {
         cardText = new javax.swing.JTextField();
         Terms = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         cardText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         cardText.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         cardText.setText("jTextField1");
+        cardText.setToolTipText("");
         cardText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cardTextActionPerformed(evt);
@@ -48,8 +51,20 @@ public class FlashCards extends javax.swing.JFrame {
         Terms.setText("jLabel1");
         getContentPane().add(Terms, java.awt.BorderLayout.PAGE_START);
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Flip");
         getContentPane().add(jButton1, java.awt.BorderLayout.PAGE_END);
+
+        jButton2.setText(">");
+        jButton2.setMaximumSize(new java.awt.Dimension(50, 23));
+        jButton2.setMinimumSize(new java.awt.Dimension(50, 23));
+        jButton2.setPreferredSize(new java.awt.Dimension(50, 23));
+        getContentPane().add(jButton2, java.awt.BorderLayout.LINE_END);
+
+        jButton3.setText("<");
+        jButton3.setMaximumSize(new java.awt.Dimension(50, 23));
+        jButton3.setMinimumSize(new java.awt.Dimension(50, 23));
+        jButton3.setPreferredSize(new java.awt.Dimension(50, 23));
+        getContentPane().add(jButton3, java.awt.BorderLayout.LINE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -97,5 +112,7 @@ public class FlashCards extends javax.swing.JFrame {
     private javax.swing.JLabel Terms;
     private javax.swing.JTextField cardText;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables
 }
