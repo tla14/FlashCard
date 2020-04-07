@@ -30,8 +30,8 @@ public class FlashCards extends javax.swing.JFrame {
         cardText = new javax.swing.JTextField();
         Terms = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
+        prevButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,17 +54,27 @@ public class FlashCards extends javax.swing.JFrame {
         jButton1.setText("Flip");
         getContentPane().add(jButton1, java.awt.BorderLayout.PAGE_END);
 
-        jButton2.setText(">");
-        jButton2.setMaximumSize(new java.awt.Dimension(50, 23));
-        jButton2.setMinimumSize(new java.awt.Dimension(50, 23));
-        jButton2.setPreferredSize(new java.awt.Dimension(50, 23));
-        getContentPane().add(jButton2, java.awt.BorderLayout.LINE_END);
+        nextButton.setText(">");
+        nextButton.setMaximumSize(new java.awt.Dimension(50, 23));
+        nextButton.setMinimumSize(new java.awt.Dimension(50, 23));
+        nextButton.setPreferredSize(new java.awt.Dimension(50, 23));
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(nextButton, java.awt.BorderLayout.LINE_END);
 
-        jButton3.setText("<");
-        jButton3.setMaximumSize(new java.awt.Dimension(50, 23));
-        jButton3.setMinimumSize(new java.awt.Dimension(50, 23));
-        jButton3.setPreferredSize(new java.awt.Dimension(50, 23));
-        getContentPane().add(jButton3, java.awt.BorderLayout.LINE_START);
+        prevButton.setText("<");
+        prevButton.setMaximumSize(new java.awt.Dimension(50, 23));
+        prevButton.setMinimumSize(new java.awt.Dimension(50, 23));
+        prevButton.setPreferredSize(new java.awt.Dimension(50, 23));
+        prevButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                prevButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(prevButton, java.awt.BorderLayout.LINE_START);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -72,6 +82,14 @@ public class FlashCards extends javax.swing.JFrame {
     private void cardTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cardTextActionPerformed
+
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_prevButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -112,7 +130,7 @@ public class FlashCards extends javax.swing.JFrame {
     private javax.swing.JLabel Terms;
     private javax.swing.JTextField cardText;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JButton prevButton;
     // End of variables declaration//GEN-END:variables
 }

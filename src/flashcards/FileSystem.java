@@ -31,6 +31,11 @@ public class FileSystem extends javax.swing.JFrame {
         this.TermText.setText("Term");
         this.DefText.setText("Definition");
     }
+    
+    public void updateScreen() {
+        flashcardList.get(index).setTerm(this.TermText.getText());
+        flashcardList.get(index).setDef(this.DefText.getText());
+    }
 
     public void addFlashcards() {
         String fileName = "c:\\flashcards\\flashcards.txt";
