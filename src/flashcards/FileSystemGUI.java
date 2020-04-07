@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -19,11 +20,11 @@ import javax.swing.JOptionPane;
  *
  * @author Tracy Ayres
  */
-public class FileSystem extends javax.swing.JFrame {
+public class FileSystemGUI extends javax.swing.JFrame {
 
     FileSystem fs;
     Path pathToFile;
-    InputStream flashIn;
+    InputStream flashIn = null;
     BufferedReader flashcardReader;
     ArrayList<FileSystemClass> flashcardList = new ArrayList<FileSystemClass>();
 
@@ -59,7 +60,7 @@ public class FileSystem extends javax.swing.JFrame {
     /**
      * Creates new form FileSystem
      */
-    public FileSystem() {
+    public FileSystemGUI() {
         initComponents();
         this.setTitle("Company");
         fs = FileSystems.getDefault();
@@ -142,20 +143,21 @@ public class FileSystem extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FileSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileSystemGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FileSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileSystemGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FileSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileSystemGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FileSystem.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(FileSystemGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new FileSystem().setVisible(true);
+                new FileSystemGUI().setVisible(true);
             }
         });
     }
