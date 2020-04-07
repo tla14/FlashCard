@@ -20,13 +20,23 @@ public class FlashCards extends javax.swing.JFrame {
     /**
      * Creates new form FlashCards
      */
-    
+    ArrayList<FileSystemClass> flashcardList = new ArrayList<FileSystemClass>();
+    int index = 0;
     
     public FlashCards() {
         initComponents();
     }
     
+    public void showRecord(){
+    this.cardText.setText(flashcardList.get(index).getTerm());
+    this.cardText.setText(flashcardList.get(index).getTerm());
+    this.setTitle("Flash Cards " + index);
+    }
    
+    public void updateRecord() {
+        flashcardList.get(index).setTerm(this.cardText.getText());
+        flashcardList.get(index).setDef(this.cardText.getText());
+    }
     
 
     /**
@@ -96,12 +106,20 @@ public class FlashCards extends javax.swing.JFrame {
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
-      
+      updateRecord();
+        if(index < flashcardList.size() -1){
+            index ++;
+            showRecord();
+        }
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         // TODO add your handling code here:
-   
+        updateRecord();
+         if(index > 0){
+            index --;
+            showRecord();
+        }
     }//GEN-LAST:event_prevButtonActionPerformed
 
     /**
