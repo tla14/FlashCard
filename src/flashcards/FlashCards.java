@@ -20,26 +20,13 @@ public class FlashCards extends javax.swing.JFrame {
     /**
      * Creates new form FlashCards
      */
-    FileSystem fs;
-    Path pathToFile;
-    InputStream flashIn = null;
-    BufferedReader flashcardReader;
-    ArrayList<FileSystemClass> flashcardList = new ArrayList<FileSystemClass>();
-    int index = 0;
+    
     
     public FlashCards() {
         initComponents();
     }
     
-    public void showScreen() {
-        this.TermText.setText("Term");
-        this.DefText.setText("Definition");
-    }
-    
-    public void updateRecord() {
-        flashcardList.get(index).setTerm(this.TermText.getText());
-        flashcardList.get(index).setDef(this.DefText.getText());
-    }
+   
     
 
     /**
@@ -109,21 +96,12 @@ public class FlashCards extends javax.swing.JFrame {
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
         // TODO add your handling code here:
-        updateRecord();
-        if(index < flashcardList.size() -1){
-            index ++;
-            showScreen();
-        }
-    }   
+      
     }//GEN-LAST:event_nextButtonActionPerformed
 
     private void prevButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_prevButtonActionPerformed
         // TODO add your handling code here:
-        updateRecord();
-         if(index > 0){
-            index --;
-            showScreen();
-        }
+   
     }//GEN-LAST:event_prevButtonActionPerformed
 
     /**
@@ -168,9 +146,6 @@ public class FlashCards extends javax.swing.JFrame {
     private javax.swing.JButton nextButton;
     private javax.swing.JButton prevButton;
     // End of variables declaration//GEN-END:variables
-    private javax.swing.JButton Create;
-    private javax.swing.JLabel CreateLabel;
-    private javax.swing.JTextField DefText;
-    private javax.swing.JTextField TermText;
+
 }
 
