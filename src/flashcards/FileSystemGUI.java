@@ -33,7 +33,11 @@ public class FileSystemGUI extends javax.swing.JFrame {
         this.TermText.setText("Term");
         this.DefText.setText("Definition");
     }
-    
+    public void showRecord(){
+    this.TermText.setText(flashcardList.get(index).getTerm());
+    this.DefText.setText(flashcardList.get(index).getTerm());
+    this.setTitle("Flash Cards " + index);
+    }
     public void updateRecord() {
         flashcardList.get(index).setTerm(this.TermText.getText());
         flashcardList.get(index).setDef(this.DefText.getText());
