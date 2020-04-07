@@ -26,6 +26,7 @@ public class FileSystem extends javax.swing.JFrame {
     InputStream flashIn;
     BufferedReader flashcardReader;
     ArrayList<FileSystemClass> flashcardList = new ArrayList<FileSystemClass>();
+    int index = 0;
 
     public void showScreen() {
         this.TermText.setText("Term");
