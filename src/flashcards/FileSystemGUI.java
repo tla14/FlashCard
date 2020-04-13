@@ -33,15 +33,13 @@ public class FileSystemGUI extends javax.swing.JFrame {
         this.TermText.setText("Term");
         this.DefText.setText("Definition");
     }
-    public void showRecord(){
-    this.IdSpinner.setValue(flashcardList.get(index).getId());    
+    public void showRecord(){    
     this.TermText.setText(flashcardList.get(index).getTerm());
     this.DefText.setText(flashcardList.get(index).getDef());
     this.setTitle("Flash Card Creator #" + index);
     }
     
     public void updateRecord() {
-        flashcardList.get(index).setId((int) this.IdSpinner.getValue());
         flashcardList.get(index).setTerm(this.TermText.getText());
         flashcardList.get(index).setDef(this.DefText.getText());
     }
@@ -52,17 +50,14 @@ public class FileSystemGUI extends javax.swing.JFrame {
         File file = new File(fileName);
 
         try {
-            FileWriter fileOut = new FileWriter(file);
-            System.getProperty( "line.separator" );
-            fileOut.write(System.getProperty( "line.separator" ));
+            FileWriter fileOut = new FileWriter("c:\\flashcard\\flashcards.txt", true);
             for (int x = 0; x < flashcardList.size(); x++) {
                 //%d integer
                 //%f float or double
                 //%s string
                 //%n new line
 
-                outputLine = String.format("%d,%s,%s",
-                flashcardList.get(x).getId(),
+                outputLine = String.format("%s,%s%n",
                 flashcardList.get(x).getTerm(),
                 flashcardList.get(x).getDef());
                 fileOut.write(outputLine);
@@ -95,9 +90,9 @@ public class FileSystemGUI extends javax.swing.JFrame {
              aCard = new FileSystemClass();
              
              try{
-                 aCard.setId(Integer.parseInt(records[0]));
-                 aCard.setTerm(records[1]);
-                 aCard.setDef(records[2]);
+                 //aCard.setId(Integer.parseInt(records[0]));
+                 aCard.setTerm(records[0]);
+                 aCard.setDef(records[1]);
                  
                  flashcardList.add(aCard);
              } catch (NumberFormatException numberFormatException) {
@@ -129,9 +124,6 @@ public class FileSystemGUI extends javax.swing.JFrame {
         TermText = new javax.swing.JTextField();
         DefText = new javax.swing.JTextField();
         Create = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        IdSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,20 +149,6 @@ public class FileSystemGUI extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText(">");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
-
-        jButton2.setText("<");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -179,40 +157,23 @@ public class FileSystemGUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
+                        .addGap(61, 61, 61)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(IdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1))
+                            .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(133, 133, 133)
                         .addComponent(Create)))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(CreateLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(IdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(3, 3, 3)
+                .addGap(29, 29, 29)
                 .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(jButton2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(Create))
         );
@@ -228,21 +189,6 @@ public class FileSystemGUI extends javax.swing.JFrame {
     private void CreateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CreateMouseClicked
 
     }//GEN-LAST:event_CreateMouseClicked
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        if(index < flashcardList.size() -1){
-        index++;
-        }
-        showRecord();
-    }//GEN-LAST:event_jButton1MouseClicked
-
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        updateRecord();
-        if (index > 0){
-        index--;   
-        }
-        showRecord();
-    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -284,9 +230,6 @@ public class FileSystemGUI extends javax.swing.JFrame {
     private javax.swing.JButton Create;
     private javax.swing.JLabel CreateLabel;
     private javax.swing.JTextField DefText;
-    private javax.swing.JSpinner IdSpinner;
     private javax.swing.JTextField TermText;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     // End of variables declaration//GEN-END:variables
 }
