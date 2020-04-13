@@ -73,6 +73,11 @@ public class FlashCards extends javax.swing.JFrame {
         getContentPane().add(Terms, java.awt.BorderLayout.PAGE_START);
 
         jButton1.setText("Flip");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, java.awt.BorderLayout.PAGE_END);
 
         nextButton.setText(">");
@@ -121,6 +126,10 @@ public class FlashCards extends javax.swing.JFrame {
             showRecord();
         }
     }//GEN-LAST:event_prevButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
