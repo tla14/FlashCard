@@ -6,10 +6,17 @@
 package flashcards;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -29,7 +36,7 @@ public class FlashCards extends javax.swing.JFrame {
     
     public void showRecord(){
     this.cardText.setText(flashcardList.get(index).getTerm());
-    this.cardText.setText(flashcardList.get(index).getTerm());
+    this.cardText.setText(flashcardList.get(index).getDef());
     this.setTitle("Flash Cards " + index);
     }
    
@@ -37,8 +44,46 @@ public class FlashCards extends javax.swing.JFrame {
         flashcardList.get(index).setTerm(this.cardText.getText());
         flashcardList.get(index).setDef(this.cardText.getText());
     }
-    
-
+    public void ReadTheFile()
+    {
+    FileSystem fs;
+    Path pathToFile;
+    InputStream flashIn = null;
+    BufferedReader flashcardReader;
+        initComponents();
+        fs = FileSystems.getDefault();
+        pathToFile = fs.getPath("c:\\flashcard\\flashcards.txt");
+        FileSystemClass aCard;
+        String line;
+        try{
+            flashIn = Files.newInputStream(pathToFile);
+            flashcardReader = new BufferedReader(new InputStreamReader (flashIn));
+            
+            while((line = flashcardReader.readLine()) != null){
+             String records[] = line.split(",");
+             aCard = new FileSystemClass();
+             
+             try{
+                 //aCard.setId(Integer.parseInt(records[0]));
+                 aCard.setTerm(records[0]);
+                 aCard.setDef(records[1]);
+                 
+                 flashcardList.add(aCard);
+             } catch (NumberFormatException numberFormatException) {
+                  //do nothing - skip the error
+                    //eliminate problems with bas ids
+                    //in reality you would fix this
+             }
+            }//end of while
+            
+            flashIn.close();
+        }
+        catch(IOException ex){
+            System.out.println("Cannot open " +pathToFile.getFileName());
+            System.exit(1);
+        }//end of catch
+        showRecord();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -49,7 +94,7 @@ public class FlashCards extends javax.swing.JFrame {
     private void initComponents() {
 
         cardText = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        flipButton = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         prevButton = new javax.swing.JButton();
         defButton = new javax.swing.JButton();
@@ -68,10 +113,10 @@ public class FlashCards extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Flip");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        flipButton.setText("Flip");
+        flipButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                flipButtonActionPerformed(evt);
             }
         });
 
@@ -121,7 +166,7 @@ public class FlashCards extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(flipButton, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
@@ -145,18 +190,20 @@ public class FlashCards extends javax.swing.JFrame {
                         .addComponent(defButton)
                         .addComponent(termButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cardText, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addComponent(jButton1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(prevButton, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                    .addComponent(nextButton, javax.swing.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                    .addComponent(cardText))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(flipButton, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cardTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cardTextActionPerformed
-        // TODO add your handling code here:
+        updateRecord();
+        showRecord();
     }//GEN-LAST:event_cardTextActionPerformed
 
     private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
@@ -177,9 +224,9 @@ public class FlashCards extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_prevButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void flipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_flipButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_flipButtonActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -231,7 +278,7 @@ public class FlashCards extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField cardText;
     private javax.swing.JButton defButton;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton flipButton;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton prevButton;

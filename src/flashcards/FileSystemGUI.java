@@ -76,7 +76,6 @@ public class FileSystemGUI extends javax.swing.JFrame {
      */
     public FileSystemGUI() {
         initComponents();
-        this.setTitle("Company");
         fs = FileSystems.getDefault();
         pathToFile = fs.getPath("c:\\flashcard\\flashcards.txt");
         FileSystemClass aCard;
