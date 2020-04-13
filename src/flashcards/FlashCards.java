@@ -49,10 +49,12 @@ public class FlashCards extends javax.swing.JFrame {
     private void initComponents() {
 
         cardText = new javax.swing.JTextField();
-        Terms = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         nextButton = new javax.swing.JButton();
         prevButton = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,12 +67,6 @@ public class FlashCards extends javax.swing.JFrame {
                 cardTextActionPerformed(evt);
             }
         });
-        getContentPane().add(cardText, java.awt.BorderLayout.CENTER);
-
-        Terms.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Terms.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        Terms.setText("jLabel1");
-        getContentPane().add(Terms, java.awt.BorderLayout.PAGE_START);
 
         jButton1.setText("Flip");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -78,7 +74,6 @@ public class FlashCards extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, java.awt.BorderLayout.PAGE_END);
 
         nextButton.setText(">");
         nextButton.setMaximumSize(new java.awt.Dimension(50, 23));
@@ -89,7 +84,6 @@ public class FlashCards extends javax.swing.JFrame {
                 nextButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(nextButton, java.awt.BorderLayout.LINE_END);
 
         prevButton.setText("<");
         prevButton.setMaximumSize(new java.awt.Dimension(50, 23));
@@ -100,7 +94,55 @@ public class FlashCards extends javax.swing.JFrame {
                 prevButtonActionPerformed(evt);
             }
         });
-        getContentPane().add(prevButton, java.awt.BorderLayout.LINE_START);
+
+        jButton2.setText("jButton2");
+
+        jButton3.setText("jButton3");
+
+        jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField1.setText(" <-  Display First ->");
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2))
+                            .addComponent(cardText, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, 0)
+                        .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jTextField1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cardText, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jButton1))
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -130,6 +172,10 @@ public class FlashCards extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -167,9 +213,11 @@ public class FlashCards extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Terms;
     private javax.swing.JTextField cardText;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JButton nextButton;
     private javax.swing.JButton prevButton;
     // End of variables declaration//GEN-END:variables
