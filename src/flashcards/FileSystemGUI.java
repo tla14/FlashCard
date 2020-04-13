@@ -10,12 +10,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
-
 /**
  *
  * @author Tracy Ayres
@@ -28,42 +29,50 @@ public class FileSystemGUI extends javax.swing.JFrame {
     BufferedReader flashcardReader;
     ArrayList<FileSystemClass> flashcardList = new ArrayList<FileSystemClass>();
     int index = 0;
-
-    public void showScreen() {
+    public void showScreen(){
         this.TermText.setText("Term");
         this.DefText.setText("Definition");
     }
     public void showRecord(){
+    this.IdSpinner.setValue(flashcardList.get(index).getId());    
     this.TermText.setText(flashcardList.get(index).getTerm());
-    this.DefText.setText(flashcardList.get(index).getTerm());
-    this.setTitle("Flash Cards " + index);
+    this.DefText.setText(flashcardList.get(index).getDef());
+    this.setTitle("Flash Card Creator #" + index);
     }
+    
     public void updateRecord() {
+        flashcardList.get(index).setId((int) this.IdSpinner.getValue());
         flashcardList.get(index).setTerm(this.TermText.getText());
         flashcardList.get(index).setDef(this.DefText.getText());
     }
 
     public void addFlashcards() {
-        String fileName = "c:\\flashcards\\flashcards.txt";
-        String outputLine;
+        String fileName = "c:\\flashcard\\flashcards.txt";
+        String outputLine="";
         File file = new File(fileName);
 
         try {
             FileWriter fileOut = new FileWriter(file);
-
-            for (int x = 0; x < flashcardList.size() - 1; x++) {
+            System.getProperty( "line.separator" );
+            fileOut.write(System.getProperty( "line.separator" ));
+            for (int x = 0; x < flashcardList.size(); x++) {
                 //%d integer
                 //%f float or double
                 //%s string
                 //%n new line
 
-                outputLine = String.format("%s,%s", flashcardList.get(x).getTerm(), flashcardList.get(x).getDef());
+                outputLine = String.format("%d,%s,%s",
+                flashcardList.get(x).getId(),
+                flashcardList.get(x).getTerm(),
+                flashcardList.get(x).getDef());
                 fileOut.write(outputLine);
+                
             }
 
             fileOut.close();
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Cannot write flashcard file\n" + ex.getMessage(), "File IO Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Cannot write flashcard file/n" + ex.getMessage(), 
+                    "File IO Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -74,9 +83,37 @@ public class FileSystemGUI extends javax.swing.JFrame {
         initComponents();
         this.setTitle("Company");
         fs = FileSystems.getDefault();
-        pathToFile = fs.getPath("c:\\flashcard\\flashcard.txt");
-        FileSystemClass aPerson;
+        pathToFile = fs.getPath("c:\\flashcard\\flashcards.txt");
+        FileSystemClass aCard;
         String line;
+        try{
+            flashIn = Files.newInputStream(pathToFile);
+            flashcardReader = new BufferedReader(new InputStreamReader (flashIn));
+            
+            while((line = flashcardReader.readLine()) != null){
+             String records[] = line.split(",");
+             aCard = new FileSystemClass();
+             
+             try{
+                 aCard.setId(Integer.parseInt(records[0]));
+                 aCard.setTerm(records[1]);
+                 aCard.setDef(records[2]);
+                 
+                 flashcardList.add(aCard);
+             } catch (NumberFormatException numberFormatException) {
+                  //do nothing - skip the error
+                    //eliminate problems with bas ids
+                    //in reality you would fix this
+             }
+            }//end of while
+            
+            flashIn.close();
+        }
+        catch(IOException ex){
+            System.out.println("Cannot open " +pathToFile.getFileName());
+            System.exit(1);
+        }//end of catch
+        showScreen();
     }
 
     /**
@@ -92,6 +129,9 @@ public class FileSystemGUI extends javax.swing.JFrame {
         TermText = new javax.swing.JTextField();
         DefText = new javax.swing.JTextField();
         Create = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        IdSpinner = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,6 +146,30 @@ public class FileSystemGUI extends javax.swing.JFrame {
         DefText.setText("Definition");
 
         Create.setText("Create");
+        Create.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CreateMouseClicked(evt);
+            }
+        });
+        Create.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreateActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText(">");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
+
+        jButton2.setText("<");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -113,28 +177,72 @@ public class FileSystemGUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(CreateLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Create))
-                .addContainerGap(177, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(IdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(133, 133, 133)
+                        .addComponent(Create)))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(CreateLabel)
-                .addGap(42, 42, 42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(IdSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
                 .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Create)
-                .addGap(0, 25, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jButton2)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Create))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void CreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateActionPerformed
+        updateRecord();
+        addFlashcards();
+    }//GEN-LAST:event_CreateActionPerformed
+
+    private void CreateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CreateMouseClicked
+
+    }//GEN-LAST:event_CreateMouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        if(index < flashcardList.size() -1){
+        index++;
+        }
+        showRecord();
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        updateRecord();
+        if (index > 0){
+        index--;   
+        }
+        showRecord();
+    }//GEN-LAST:event_jButton2MouseClicked
 
     /**
      * @param args the command line arguments
@@ -176,6 +284,9 @@ public class FileSystemGUI extends javax.swing.JFrame {
     private javax.swing.JButton Create;
     private javax.swing.JLabel CreateLabel;
     private javax.swing.JTextField DefText;
+    private javax.swing.JSpinner IdSpinner;
     private javax.swing.JTextField TermText;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     // End of variables declaration//GEN-END:variables
 }

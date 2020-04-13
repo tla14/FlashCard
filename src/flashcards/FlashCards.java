@@ -98,6 +98,16 @@ public class FlashCards extends javax.swing.JFrame {
         defButton.setText("Definition");
 
         termButton.setText("Term");
+        termButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                termButtonMouseClicked(evt);
+            }
+        });
+        termButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                termButtonActionPerformed(evt);
+            }
+        });
 
         jTextField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextField1.setText(" <-  Display First ->");
@@ -129,10 +139,11 @@ public class FlashCards extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(defButton)
-                    .addComponent(termButton)
-                    .addComponent(jTextField1))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTextField1)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(defButton)
+                        .addComponent(termButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(prevButton, javax.swing.GroupLayout.PREFERRED_SIZE, 255, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -173,6 +184,14 @@ public class FlashCards extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void termButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_termButtonActionPerformed
+
+    }//GEN-LAST:event_termButtonActionPerformed
+
+    private void termButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_termButtonMouseClicked
+       
+    }//GEN-LAST:event_termButtonMouseClicked
 
     /**
      * @param args the command line arguments

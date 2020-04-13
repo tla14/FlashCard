@@ -10,18 +10,28 @@ package flashcards;
  * @author derek
  */
 public class FileSystemClass {
-    
+    private int Id;
     private String term;
     private String def;
+    
 
     public FileSystemClass() {
     }
 
-    public FileSystemClass(String term, String def) {
+    public FileSystemClass(int Id, String term, String def) {
+        this.Id = Id;
         this.term = term;
         this.def = def;
     }
 
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int Id) {
+        this.Id = Id;
+    }
+    
     public String getTerm() {
         return term;
     }
