@@ -22,94 +22,107 @@ import javax.swing.JOptionPane;
  * @author Tracy Ayres
  */
 public class FileSystemGUI extends javax.swing.JFrame {
-
-    FileSystem fs;
-    Path pathToFile;
-    InputStream flashIn = null;
-    BufferedReader flashcardReader;
-    ArrayList<FileSystemClass> flashcardList = new ArrayList<FileSystemClass>();
-    int index = 0;
-    public void showScreen(){
-        this.TermText.setText("Term");
-        this.DefText.setText("Definition");
+    public FileSystemGUI(){
+        initComponents();
+        this.setTitle("Flashcard Review");
+        makeArrays();
+        displayFlashcards();
+        this.AnswerLabel.setText(flashcardList.get(0).getTerm());
     }
-    public void showRecord(){    
-    this.TermText.setText(flashcardList.get(index).getTerm());
-    this.DefText.setText(flashcardList.get(index).getDef());
-    this.setTitle("Flash Card Creator #" + index);
-    }
-    
-    public void updateRecord() {
-        flashcardList.get(index).setTerm(this.TermText.getText());
-        flashcardList.get(index).setDef(this.DefText.getText());
-    }
+static boolean FrontorBack = false;
+static int ArrayIndex = 0;
+static ArrayList<FlashCardClass> flashcardList = new ArrayList<FlashCardClass>();
+static FileSystem fs;
+static File file;
+static Path pathToFile;
+static BufferedReader flashcardReader;
+static InputStream flashIn = null;
 
-    public void addFlashcards() {
-        String fileName = "c:\\flashcard\\flashcards.txt";
-        String outputLine="";
-        File file = new File(fileName);
-
-        try {
-            FileWriter fileOut = new FileWriter("c:\\flashcard\\flashcards.txt", true);
-            for (int x = 0; x < flashcardList.size(); x++) {
-                //%d integer
-                //%f float or double
-                //%s string
-                //%n new line
-
-                outputLine = String.format("%s,%s%n",
-                flashcardList.get(x).getTerm(),
-                flashcardList.get(x).getDef());
-                fileOut.write(outputLine);
-                
+    public void makeArrays() {
+        if(flashcardList.size() == 0){
+            for(int i = 0; i<5; i++){
+                flashcardList.add(new FlashCardClass());
             }
-
-            fileOut.close();
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(this, "Cannot write flashcard file/n" + ex.getMessage(), 
-                    "File IO Error", JOptionPane.ERROR_MESSAGE);
+        }
+        String TermString = "Term";
+        String DefString = "Definition";
+        for(int x=0;x< flashcardList.size();x++){
+            flashcardList.get(x).setTerm(TermString + ( x + 1));
+            flashcardList.get(x).setDef(DefString + (x+1));
         }
     }
 
+    public void displayFlashcards() {
+        if(this.flipCard.isSelected()){
+            if (FrontorBack){
+                FrontorBack = false;
+                this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getTerm());
+            }else {
+                FrontorBack = true;
+                ArrayIndex++;
+                try{
+                    this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getDef());
+                }catch(IndexOutOfBoundsException OutofBoundsException){
+                    this.AnswerLabel.setText(flashcardList.get(0).getDef());
+                    ArrayIndex = 0;
+                }
+            }
+        }else{
+            if (FrontorBack){
+                FrontorBack = false;
+                ArrayIndex++;
+                try{
+                    this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getTerm());
+                }catch (IndexOutOfBoundsException OutOfBoundsException){
+                    this.AnswerLabel.setText(flashcardList.get(0).getTerm());
+                    ArrayIndex = 0;
+                }
+            }else {
+                FrontorBack = true;
+                this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getDef());
+            }
+        }
+    }
     /**
      * Creates new form FileSystem
      */
-    public FileSystemGUI() {
-        initComponents();
+    public void FlashcardsFile() {
         fs = FileSystems.getDefault();
         pathToFile = fs.getPath("c:\\flashcard\\flashcards.txt");
-        FileSystemClass aCard;
-        String line;
-        try{
+        try {
             flashIn = Files.newInputStream(pathToFile);
-            flashcardReader = new BufferedReader(new InputStreamReader (flashIn));
+            flashcardReader = new BufferedReader(new InputStreamReader(flashIn));
+        }   catch (IOException IOException){
             
-            while((line = flashcardReader.readLine()) != null){
-             String records[] = line.split(",");
-             aCard = new FileSystemClass();
-             
-             try{
-                 //aCard.setId(Integer.parseInt(records[0]));
-                 aCard.setTerm(records[0]);
-                 aCard.setDef(records[1]);
-                 
-                 flashcardList.add(aCard);
-             } catch (NumberFormatException numberFormatException) {
-                  //do nothing - skip the error
-                    //eliminate problems with bas ids
-                    //in reality you would fix this
-             }
-            }//end of while
-            
-            flashIn.close();
         }
-        catch(IOException ex){
-            System.out.println("Cannot open " +pathToFile.getFileName());
-            System.exit(1);
-        }//end of catch
-        showScreen();
+        
+        String line;
+        int CardNumberIndex = 0;
+        int cardCounter = 0;
+        try  {
+            while((line = flashcardReader.readLine()) != null){
+            CardNumberIndex ++;
+            if (CardNumberIndex % 2 != 0) {
+                cardCounter++;
+                if (flashcardList.size() < cardCounter){
+                flashcardList.add(new FlashCardClass());
+            }
+            flashcardList.get(cardCounter - 1).setTerm("<html>"+line+"</html>");
+        }   else{
+                flashcardList.get(cardCounter - 1).setDef("<html>"+line+"</html");
+            }
+            }
+        }catch (IOException IOException){
+            
+        }
+        try{
+            flashIn.close();
+        }catch(IOException IOException){
+            
+        }
     }
-
+            
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -122,7 +135,13 @@ public class FileSystemGUI extends javax.swing.JFrame {
         CreateLabel = new javax.swing.JLabel();
         TermText = new javax.swing.JTextField();
         DefText = new javax.swing.JTextField();
-        Create = new javax.swing.JButton();
+        CreateButton = new javax.swing.JButton();
+        RandomButton = new javax.swing.JButton();
+        flipCard = new javax.swing.JCheckBox();
+        AnswerLabel = new javax.swing.JLabel();
+        previousButton = new javax.swing.JButton();
+        nextButton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -136,58 +155,182 @@ public class FileSystemGUI extends javax.swing.JFrame {
         DefText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         DefText.setText("Definition");
 
-        Create.setText("Create");
-        Create.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                CreateMouseClicked(evt);
-            }
-        });
-        Create.addActionListener(new java.awt.event.ActionListener() {
+        CreateButton.setText("Create");
+        CreateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                CreateActionPerformed(evt);
+                CreateButtonActionPerformed(evt);
             }
         });
+
+        RandomButton.setText("Random");
+        RandomButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RandomButtonActionPerformed(evt);
+            }
+        });
+
+        flipCard.setText("Flip Card");
+
+        AnswerLabel.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        AnswerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        AnswerLabel.setText("Term");
+        AnswerLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                AnswerLabelMouseClicked(evt);
+            }
+        });
+
+        previousButton.setText("<");
+        previousButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previousButtonActionPerformed(evt);
+            }
+        });
+
+        nextButton.setText(">");
+        nextButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nextButtonActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("Go over your flashcards");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(CreateLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(118, 118, 118)
+                .addComponent(CreateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(RandomButton, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(54, 54, 54)
+                .addComponent(flipCard, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
             .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(CreateLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 342, Short.MAX_VALUE)
+                    .addComponent(DefText, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TermText, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(Create)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                        .addComponent(previousButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(AnswerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(nextButton)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(CreateLabel)
-                .addGap(29, 29, 29)
-                .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(CreateLabel)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(Create))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(previousButton, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGap(34, 34, 34)
+                                    .addComponent(DefText, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(AnswerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(nextButton, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TermText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(flipCard, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(RandomButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(CreateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(22, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void CreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateActionPerformed
-        updateRecord();
-        addFlashcards();
-    }//GEN-LAST:event_CreateActionPerformed
+    private void CreateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreateButtonActionPerformed
+    if(this.TermText.getText().isEmpty() || this.DefText.getText().isEmpty()){
+            JOptionPane.showMessageDialog(this, "Please fill out the Term and Text Boxes", "Input Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(this, "Card Created", "Success", JOptionPane.INFORMATION_MESSAGE);
+            String fileLocation = "C:\\flashcard\\flashcard.txt";
+            File file = new File(fileLocation);
+            try{
+                FileWriter fileOut = new FileWriter(file, true);
+                fileOut.write("\n"+this.TermText.getText());
+                fileOut.write("\n"+this.DefText.getText());
+                fileOut.flush();
+                fileOut.close();
+            }catch (IOException IOException) {
+                System.out.println("Cannot write to file");
+                System.exit(1);
+            }
+        }
+    }//GEN-LAST:event_CreateButtonActionPerformed
 
-    private void CreateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CreateMouseClicked
+    private void nextButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nextButtonActionPerformed
+        displayFlashcards();
+        if(ArrayIndex == 0){
+            ArrayIndex = flashcardList.size() - 1;
+        }else {
+            ArrayIndex++;
+        }
 
-    }//GEN-LAST:event_CreateMouseClicked
+        if (this.flipCard.isSelected()){
+            this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getDef());
+        }else{
+            this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getTerm());
+        }
+    }//GEN-LAST:event_nextButtonActionPerformed
+
+    private void RandomButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RandomButtonActionPerformed
+        displayFlashcards();
+        int random;
+        do{
+            random = (int) (Math.random() * flashcardList.size());
+        }while (random == ArrayIndex);
+        ArrayIndex = random;
+        if(this.flipCard.isSelected()){
+            FrontorBack=true;
+            this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getDef());
+        }else{
+            FrontorBack=false;
+            this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getTerm());
+        }
+    }//GEN-LAST:event_RandomButtonActionPerformed
+
+    private void previousButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previousButtonActionPerformed
+        displayFlashcards();
+        if (ArrayIndex == 0) {
+            ArrayIndex = flashcardList.size() - 1;
+        } else {
+            ArrayIndex--;
+        }
+
+        if (this.flipCard.isSelected()) {
+            this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getDef());
+        } else {
+            this.AnswerLabel.setText(flashcardList.get(ArrayIndex).getTerm());
+        }
+    }//GEN-LAST:event_previousButtonActionPerformed
+
+    private void AnswerLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AnswerLabelMouseClicked
+        makeArrays();
+        displayFlashcards();
+        FlashcardsFile();
+    }//GEN-LAST:event_AnswerLabelMouseClicked
 
     /**
      * @param args the command line arguments
@@ -226,9 +369,15 @@ public class FileSystemGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Create;
+    private javax.swing.JLabel AnswerLabel;
+    private javax.swing.JButton CreateButton;
     private javax.swing.JLabel CreateLabel;
     private javax.swing.JTextField DefText;
+    private javax.swing.JButton RandomButton;
     private javax.swing.JTextField TermText;
+    private javax.swing.JCheckBox flipCard;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JButton nextButton;
+    private javax.swing.JButton previousButton;
     // End of variables declaration//GEN-END:variables
 }

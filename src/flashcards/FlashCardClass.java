@@ -9,29 +9,19 @@ package flashcards;
  *
  * @author derek
  */
-public class FileSystemClass {
-    private int Id;
+public class FlashCardClass {
     private String term;
     private String def;
-    
+    private boolean isFlipped;
 
-    public FileSystemClass() {
+    public FlashCardClass() {
     }
 
-    public FileSystemClass(int Id, String term, String def) {
-        this.Id = Id;
+    public FlashCardClass(String term, String def) {
         this.term = term;
         this.def = def;
+        isFlipped=false;
     }
-
-    public int getId() {
-        return Id;
-    }
-
-    public void setId(int Id) {
-        this.Id = Id;
-    }
-    
     public String getTerm() {
         return term;
     }
@@ -47,12 +37,22 @@ public class FileSystemClass {
     public void setDef(String def) {
         this.def = def;
     }
+    public void FlipCard(){
+    if(isFlipped){
+        isFlipped = false;
+    }
+    else{
+        isFlipped = true;
+    }
+    }
 
     @Override
     public String toString() {
-        return "FileSystemClass{" + "term=" + term + ", def=" + def + '}';
+        if(isFlipped){
+            return def;
+        }
+        else{
+            return term;
+        }
     }
-    
-    
-    
 }
